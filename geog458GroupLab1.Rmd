@@ -1,0 +1,11 @@
+---
+title: "GEOG458_GroupLab1"
+author: "Group6"
+date: "1/16/2019"
+output: html_document
+---
+##Part 1
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
