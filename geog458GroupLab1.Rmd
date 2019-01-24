@@ -4,8 +4,40 @@ author: "Group6"
 date: "1/16/2019"
 output: html_document
 ---
-##Part 1
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+##Eddie's part
+
+##Section 1, Question 1
+Beijing and Shanghai are considered as "Direct Controlled Municipality", which means they are not a province, and are directly controlled or managed by the chinese central government. Hong Kong, Macao, and Taiwan are missing from the dataset. This is because the Chinese centrol government allowed them to have their own government. However, their own government will be managed by the Chinese centrol government. Using Hong Kong as an example, Hong Kong has it own government called Hong Kong SAR Government, and the adminitrive head is called cheif executive. The chief executive will be selected by the Hong Kong residences. After the candidate is finalized, the Chinese government will review his qualifications. Once approved, he/she will be the formal cheif executive of Hong Kong. Some people may argue whether Taiwan is still part of China. The answer is yes, but so far the Taiwan government doesn't recognize the Chinese Communism Party as the leader of their government. The [1992 Consensus](https://en.wikipedia.org/wiki/1992_Consensus) can be the support of this claim. 
+
+##Section 2, Question 2. One of the five visualizations
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+
+```
+
+```{r setup, echo=TRUE}
+##Only selecting the Direct Controlled Municipality's company econ data
+
+econData <- as_tibble(read.csv("China_EO_49to17.csv"))
+
+DirectCity<- econData %>%
+  select(Beijing_Enterprise, Shanghai_Enterprise, Tianjin_Enterprise, Chongqing_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(DirectCity) <- c("Beijing", "Shanghai", "Tianjin", "Chongqing", "Year")
+
+meltDirectCity <- melt(DirectCity, id.vars = "Year")
+
+ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+
+
+
+
 ```
 
