@@ -4,11 +4,88 @@ author: "Group6"
 date: "1/16/2019"
 output: html_document
 ---
-##Part 1
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
+##Section 1, Question 1
+Beijing and Shanghai are considered as "Direct Controlled Municipality", which means they are not a province, and are directly controlled or managed by the chinese central government. Hong Kong, Macao, and Taiwan are missing from the dataset. This is because the Chinese centrol government allowed them to have their own government. However, their own government will be managed by the Chinese centrol government. Using Hong Kong as an example, Hong Kong has it own government called Hong Kong SAR Government, and the adminitrive head is called cheif executive. The chief executive will be selected by the Hong Kong residences. After the candidate is finalized, the Chinese government will review his qualifications. Once approved, he/she will be the formal cheif executive of Hong Kong. Some people may argue whether Taiwan is still part of China. The answer is yes, but so far the Taiwan government doesn't recognize the Chinese Communism Party as the leader of their government. The [1992 Consensus](https://en.wikipedia.org/wiki/1992_Consensus) can be the support of this claim. 
+
 ##Section 1, Question 2
 China's economic growth has always been questioned by others because from a third-party perspective, we are unsure of how China was able to recover.  China has really impressive statistics when it comes to their GDP.  In 2017, they had a 6.9% growth and also had about 30% of global economic growth.  The Chinese government claim that they have entered into a new economic phase that is more domestic-centered and responsive to popular goods.  But according to [Economic Front](https://economicfront.wordpress.com/2018/06/05/the-chinese-economy-problems-and-prospects/), there is a graph that shows China's growth rate between 2011 to 2016 actually dropped significantly before the growth in 2017.  There were cases that GPD data was manipulated to attempt to meet standards, such as Inner Mongolia admitted to falsifying data back in 2016.
 
 In [China's Economic Data: An Accurate Refelction, or Just Smoke and Mirrors](https://www.stlouisfed.org/publications/regional-economist/second-quarter-2017/chinas-economic-data-an-accurate-reflection-or-just-smoke-and-mirrors ), they have a few suggestions to help collect *better* GPD.  They have three mothods that we can consder; energy consumption, indexed GDP proxies, and luminosity.  Because China does consume a lot of energy, changes in this particular area could help collect data.  We can think of it as China consumes energy to make products which can be recording as production.  A second method, indexed GDP proxies.  Indexing will measure from quarter-to-quarter but with consistency it can show quarterly growth to yearly growth.  The last method is luminsoity and that means to use satellite data that will measure the intensity of man-made night lights.  This method is can avoid falsification and misreporting because this method would be able to track consumption of all goods that requires light.  
+
+##Section 2, Question 2. One of the five visualizations
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+```
+
+```{r setup, echo=TRUE}
+##Only selecting the Direct Controlled Municipality's company econ data
+
+econData <- as_tibble(read.csv("China_EO_49to17.csv"))
+
+DirectCity<- econData %>%
+  select(Beijing_Enterprise, Shanghai_Enterprise, Tianjin_Enterprise, Chongqing_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(DirectCity) <- c("Beijing", "Shanghai", "Tianjin", "Chongqing", "Year")
+
+meltDirectCity <- melt(DirectCity, id.vars = "Year")
+
+ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+
+
+
+##Section 3, Question 1. Producing Output Ratios
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+
+CityEnterprise<- econData %>%
+  select(Guangdong_Enterprise, Liaoning_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(CityEnterprise) <- c("Guangdong", "Liaoning", "Year")
+add_column(CityEnterprise, Output_Ratio = 0)
+print(mutate(CityEnterprise, Output_Ratio = Guangdong/Liaoning))
+
+meltCityEnterprise <- melt(CityEnterprise, id.vars = "Year")
+
+ggplot(meltCityEnterprise, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+
+JilinAnhui<- econData %>%
+  select(Jilin_Enterprise, Anhui_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(JilinAnhui) <- c("Jilin", "Anhui", "Year")
+add_column(JilinAnhui, Output_Ratio = 0)
+print(mutate(JilinAnhui, Output_Ratio = Jilin/Anhui))
+
+meltJilinAnhui <- melt(JilinAnhui, id.vars = "Year")
+
+ggplot(meltJilinAnhui, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+
+FujianQinghai<- econData %>%
+  select(Fujian_Enterprise, Qinghai_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(FujianQinghai) <- c("Fujian", "Qinghai", "Year")
+add_column(FujianQinghai, Output_Ratio = 0)
+print(mutate(FujianQinghai, Output_Ratio = Fujian/Qinghai))
+
+meltFujianQinghai <- melt(FujianQinghai, id.vars = "Year")
+
+ggplot(meltFujianQinghai, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
