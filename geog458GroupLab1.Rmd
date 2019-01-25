@@ -15,35 +15,35 @@ In [China's Economic Data: An Accurate Refelction, or Just Smoke and Mirrors](ht
 
 ##Section 2, Question 2. One of the five visualizations
 
-```{r, echo = TRUE, warning=FALSE,message=FALSE}
+```{r setup, echo=TRUE, warning=FALSE,message=FALSE, fig.width=12,fig.height=6}
 library(plyr)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
 library(reshape2)
 
-
-```
-
-```{r setup, echo=TRUE}
-##Only selecting the Direct Controlled Municipality's company econ data
-
+## import the csv file as tibble object
 econData <- as_tibble(read.csv("China_EO_49to17.csv"))
 
+##only interested in the enterprise data in those direct controlled cities after year 2000
 DirectCity<- econData %>%
   select(Beijing_Enterprise, Shanghai_Enterprise, Tianjin_Enterprise, Chongqing_Enterprise, Year)%>%
   filter(Year >= 2000)
+
+##rename the columns
 names(DirectCity) <- c("Beijing", "Shanghai", "Tianjin", "Chongqing", "Year")
 
+## melt the tibble object to a tall structure for plotting purpose
 meltDirectCity <- melt(DirectCity, id.vars = "Year")
 
-ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+##plot. Different cities will have different color; applying smoothed linear regression lines with 95% confidence area
+ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3))
 
 
 ```
 
 ##Task 3, question 2
-```{r, echo=TRUE}
+```{r, echo=TRUE, fig.width=14,fig.height=7}
 
 ##Sum national total 
 NationalOutput <- econData %>%
@@ -51,63 +51,43 @@ NationalOutput <- econData %>%
   mutate(sumVar=rowSums(.[1:19], na.rm = TRUE))
 
 ##Inner join national total with the csv file
-
-df_with_Total<- left_join(econData, NationalOutput, by = "Year")
-df_with_Total<- df_with_Total %>%
-  select(-matches(".y"))
+# 
+# df_with_Total<- left_join(econData, NationalOutput, by = "Year")
+# df_with_Total<- df_with_Total %>%
+#   select(-matches(".y"))
 
 ##trying to building a new data frame to store the percentage
 
 
-Total_Output<- econData$sumVar
-year<- econData$Year
+##the actual loop. 
 
-## prototype to get the percentage
-Ratio_Beijing <- econData$Beijing_Output/econData$sumVar
-Ratio_Tianjin <- econData$Tianjin_Output.x/econData$sumVar
-Ratio_Hebei <- econData$Hebei_Output.x/econData$sumVar
-Ratio_Shanxi <- econData$Shanxi_Output.x/econData$sumVar
-Ratio_InnerMangolia <- econData$InnerMongolia_Output.x/econData$sumVar
-Ratio_LiaoNing<- econData$Liaoning_Output.x/econData$sumVar
-Ratio_JiLin<-econData$Jilin_Output.x/econData$sumVar
-Ratio_HeiLongJiang<- econData$Heilongjiang_Output.x/econData$sumVar
-Ratio_Shanghai<-econData$Shaanxi_Output.x/econData$sumVar
-Ratio_JiangSu<-econData$Jiangsu_Output.x/econData$sumVar
-Ratio_ZheJiang<-econData$Zhejiang_Output.x/econData$sumVar
-Ratio_AnHui<-econData$Anhui_Output.x/econData$sumVar
-Ratio_Fujian<-econData$Fujian_Output.x/econData$sumVar
-Ratio_JiangXi<-econData$Jiangxi_Output.x/econData$sumVar
-Ratio_ShangDong<-econData$Shandong_Output.x/econData$sumVar
-Ratio_HeNan<-econData$Henan_Output.x/econData$sumVar
-Ratio_Hubei<-econData$Hubei_Output.x/econData$sumVar
-Ratio_Hunan<-econData$Hunan_Output.x/econData$sumVar
-Ratio_Guangdong<-econData$Guangdong_Output.x/econData$sumVar
-Ratio_Guangxi<-econData$Guangxi_Output.x/econData$sumVar
-Ratio_Hainan<-econData$Hainan_Output.x/econData$sumVar
-Ratio_Chongqing<-econData$Chongqing_Output.x/econData$sumVar
-Ratio_Sichuan <- econData$Sichuan_Output.x/econData$sumVar
-Ratio_Guizhou <- econData$Guizhou_Output.x/econData$sumVar
-Ratio_Yunnan <- econData$Guizhou_Output.x/econData$sumVar
-Ratio_Tibet <- econData$Guizhou_Output.x/econData$sumVar
-Ratio_Shaanxi <- econData$Shaanxi_Output.x/econData$sumVar
-Ratio_Gansu <- econData$Gansu_Output.x/econData$sumVar
-Ratio_Qinghai <- econData$Qinghai_Output.x/econData$sumVar
-Ratio_Ningxia <- econData$Ningxia_Output.x/econData$sumVar
-
-Province_National_Output_Ratio <- data.frame(year, Ratio_Beijing, Ratio_AnHui, Ratio_Chongqing, ratio)
-
-##the actual loop. The idea is using column, eg Beijing_Output / sumVar. The sumVar is constant, and the Beijing_output can be symbolized as df[,i]. I think I need to add new columns with different name to store the ratio data for each province, but seems like the add_column function doesn't allow additional functions like paste? 
-
+## convert to tibble object
 NationalOutput <- as_tibble(NationalOutput)
 
-for(i in 1:dim(NationalOutput)[2]-1){
-  temp <- NationalOutput %>%
-    mutate( NationalOutput[paste0(i, "_share")] = NationalOutput[i] / NationalOutput$sumVar )
-}
-x <- dim(NationalOutput)
+##using R base functions to create new columns with the ratio between the summarized national output and each province
 for(col in names(NationalOutput)) {
   NationalOutput[paste0(col, "_share")] = NationalOutput[col] / NationalOutput$sumVar
 }
+
+## subset the previous dataset for plotting purposes. 
+
+## only selecting the ratio columns which has the _share pattern
+subset_NationalOutput <- select(NationalOutput, matches("share"))
+
+## deleting useless columns, such as year ratio
+subset_NationalOutput <- subset_NationalOutput[,1:31]
+
+## adding the actual year column
+subset_NationalOutput<-add_column(subset_NationalOutput, NationalOutput$Year)
+
+## reassign the year column with a new name
+colnames(subset_NationalOutput)[32]<-"Year"
+
+##melt the tibble object to a tall structure 
+melt_subNational <- melt(subset_NationalOutput, id.vars = "Year")
+
+##plot 
+ggplot(melt_subNational, aes(x = Year, y = value, colour = variable)) + geom_point()
 
 
 
