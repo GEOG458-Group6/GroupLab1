@@ -39,7 +39,43 @@ meltDirectCity <- melt(DirectCity, id.vars = "Year")
 
 ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
 
+```{r visualation 2, echo=TRUE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
 
+
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+China <- ecData %>%
+  select(Shanghai_Enterprise, Hainan_Enterprise, Year)%>%
+  filter(Year >= 2005)
+names(China) <- c("Shanghai", "Hainan", "Year")
+Chinaa <- melt(China, id.vars = "Year")
+
+
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="blue",pch=15,size=5)+ggtitle("Enterprise Difference between Shanghai and Hainan, 2005-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
+
+```{r visualation 3, echo=TRUE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+China <- ecData %>%
+  select(Beijing_Output, InnerMongolia_Output, Tibet_Output, Year)%>%
+  filter(Year >= 2000)
+names(China) <- c("Beijing", "Inner Mongolia", "Tibet", "Year")
+Chinaa <- melt(China, id.vars = "Year")
+
+
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="red",pch=20,size=3)+ggtitle("Output of Beijing, Inner Mongolia, and Tibet, 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
 
 
 
