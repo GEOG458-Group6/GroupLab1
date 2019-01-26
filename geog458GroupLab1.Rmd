@@ -244,8 +244,13 @@ ratioGuangxi <- econData %>%
   select(Year,OutputPerEnterprise)
 ratioGuangxi$Province <- rep("Guangxi",nrow(ratioGuangxi))
 
+ratioChongqing <- econData %>%
+  mutate(OutputPerEnterprise = Chongqing_Output / Chongqing_Enterprise) %>%
+  select(Year,OutputPerEnterprise)
+ratioChongqing$Province <- rep("Chongqing",nrow(ratioChongqing))
+
 # Combines all the data frames into one for plotting
-ratio <- rbind(ratioBeijing, ratioTianjin, ratioHebei, ratioShanghai, ratioGuangxi) %>%
+ratio <- rbind(ratioBeijing, ratioTianjin, ratioHebei, ratioShanghai, ratioGuangxi, ratioChongqing) %>%
   filter(Year >= 2000)
 
 # Plots the data
