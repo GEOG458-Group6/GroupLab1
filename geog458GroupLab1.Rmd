@@ -104,7 +104,7 @@ ggplot(meltDataCity, aes(x = Year, y = value, colour = variable)) + geom_point()
 
 ```
 
-##Section 2, Question 2 (3rd-5th visualations, Doyle)
+##Section 2, Question 2 (3rd-5th visualizations, Doyle)
 
 ```{r visualation 0.1, warning=FALSE,message=FALSE}
 library(plyr)
