@@ -198,6 +198,8 @@ meltGuangdongLiaoning <- melt(GuangdongLiaoning, id.vars = "Year")
 ggplot(meltGuangdongLiaoning, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
 
 ```
+
+
 #Guangdong vs. Liaoning 
 We can see that Guangdong was able to stable themselves in the earlies 2010 wheres compared to Liaoning they have dropped.
 
@@ -216,6 +218,8 @@ meltJilinAnhui <- melt(JilinAnhui, id.vars = "Year")
 ggplot(meltJilinAnhui, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
 
 ```
+
+
 #Jilin vs. Anhui 
 We can see that Anhui has grown increasingly high and Jilin has a much less smaller slope.
 
@@ -234,6 +238,8 @@ meltFujianGuizhou <- melt(FujianGuizhou, id.vars = "Year")
 ggplot(meltFujianGuizhou, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
 
 ```
+
+
 #Fujian vs. Guizhou 
 We can see that Fujian has a larger growth compared to Guizhou and we can say that maybe sometime in the future they would at one point have the same value.
 
@@ -334,6 +340,8 @@ ratio <- rbind(ratioBeijing, ratioTianjin, ratioHebei, ratioShanghai, ratioGuang
 ggplot(data=ratio,aes(x=Year,y=OutputPerEnterprise,color=Province)) +geom_line() + ylab("Output per # of Enterprises") + ggtitle("Output per Number of Enterprises of Various Chinese Provinces") +theme_bw()
 
 ```
+
+
 We can see a few trends in this plot:
 First, a tight linear growth in which most of the provinces are just about equal and the lead spot goes from Shanghai to Hebei around 2005.
 Second, in 2011, there seems to have been an event that triggered a massive spurt in output per number of enterprises, leading to the dominance of Beijing and Tianjin in this plot.
@@ -408,6 +416,8 @@ Chinaa <- melt(China, id.vars = "Year")
 ##ploting the values
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="black",pch=20,size=4)+ggtitle("Outputs of 3 of the Richest and Poorest China Provinces (in GDP per capita for 2017) from 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
+
+
 ##Explanation of the plot
 This plot shows that while the richest and poorest provinces outputs (based on 2017 data for GDP per capita) in China have been increased over the years, the outputs between provinces has widen considerably. Thus the data suggests that there is a widening gap in wealth between richest and poorest provinces. However, this assertion should be taken with a grain of salt (in consideration of how wide the gap is) as China provinces have been historically inflating their reported figures over the years. Still, there seems to be a trend that China has growing gap in outputs between different provinces, thus suggesting a correlation with the wealth gap as well (which is one of key issues in China).
 
@@ -436,6 +446,8 @@ Chinaa <- melt(China, id.vars = "Year")
 ##ploting the values
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="purple",pch=19,size=3)+ggtitle("Enterprises of 3 of the Richest and Poorest China Provinces (in GDP per capita for 2017) from 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
+
+
 ##Explanation of the plot
 On the other hand, the number of enterprises have little gap between the provinces (regardless of their wealth gap), excluding Shanghai. The small differences between these provinces may have to do with the number of state-owned enterprises (a legal entity that takes in commerical activity on behalf of the government), which could mean that they are not as affected by the wealth of the surrounding provinces in terms of location. Shanghai may be an exception here because it is much wealthier, thus could attract more enterprises to the area. However, this is simply a guess as other variables, such as population, can affect the number of enterprises. 
 
