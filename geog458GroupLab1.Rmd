@@ -42,7 +42,7 @@ ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point
 
 ```
 
-##Task 3, question 2
+##Section 3, question 2
 ```{r, echo=TRUE, fig.width=14,fig.height=7}
 
 ##Sum national total 
@@ -92,3 +92,62 @@ ggplot(melt_subNational, aes(x = Year, y = value, colour = variable)) + geom_poi
 
 
 ```
+
+##Section 3, Question 5
+
+```{r visualation 1}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+## import the csv file as tibble object
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+
+
+##only interested in the enterprise data in those direct controlled cities after year 2000
+China <- ecData %>%
+  select(Beijing_Output, Shanghai_Output, Tianjin_Output, Guizhou_Output, Yunnan_Output, Gansu_Output, Year)%>%
+  filter(Year >= 2000)
+  
+##rename the columns
+names(China) <- c("Beijing", "Shanghai", "Tianjin", "Guizhou", "Yunnan", "Gansu", "Year")
+
+## melt the tibble object to a tall structure for plotting purpose
+Chinaa <- melt(China, id.vars = "Year")
+
+##ploting the values
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="black",pch=20,size=4)+ggtitle("Outputs of 3 of the Richest and Poorest China Provinces (in GDP per capita for 2017) from 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
+##Explanation of the plot
+This plot shows that while the richest and poorest provinces outputs (based on 2017 data for GDP per capita) in China have been increased over the years, the outputs between provinces has widen considerably. Thus the data suggests that there is a widening gap in wealth between richest and poorest provinces. However, this assertion should be taken with a grain of salt (in consideration of how wide the gap is) as China provinces have been historically inflating their reported figures over the years. Still, there seems to be a trend that China has growing gap in outputs between different provinces, thus suggesting a correlation with the wealth gap as well (which is one of key issues in China).
+
+```{r visualation 2}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+## import the csv file as tibble object
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+
+##only interested in the enterprise data in those direct controlled cities after year 2000
+China <- ecData %>%
+  select(Beijing_Enterprise, Shanghai_Enterprise, Tianjin_Enterprise, Guizhou_Enterprise, Yunnan_Enterprise, Gansu_Enterprise, Year)%>%
+  filter(Year >= 2000)
+  
+##rename the columns  
+names(China) <- c("Beijing", "Shanghai", "Tianjin", "Guizhou", "Yunnan", "Gansu", "Year")
+
+
+## melt the tibble object to a tall structure for plotting purpose
+Chinaa <- melt(China, id.vars = "Year")
+
+##ploting the values
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="purple",pch=19,size=3)+ggtitle("Enterprises of 3 of the Richest and Poorest China Provinces (in GDP per capita for 2017) from 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
+##Explanation of the plot
+On the other hand, the number of enterprises have little gap between the provinces (regardless of their wealth gap), excluding Shanghai. The small differences between these provinces may have to do with the number of state-owned enterprises (a legal entity that takes in commerical activity on behalf of the government), which could mean that they are not as affected by the wealth of the surrounding provinces in terms of location. Shanghai may be an exception here because it is much wealthier, thus could attract more enterprises to the area. However, this is simply a guess as other variables, such as population, can affect the number of enterprises. 
+
