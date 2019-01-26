@@ -104,6 +104,83 @@ ggplot(meltDataCity, aes(x = Year, y = value, colour = variable)) + geom_point()
 
 ```
 
+##Section 2, Question 2 (3rd-5th visualations, Doyle)
+
+```{r visualation 1, warning=FALSE,message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+## import the csv file as tibble object
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+
+## enterprise data in 2 provinces after year 2005
+China <- ecData %>%
+  select(Shanghai_Enterprise, Hainan_Enterprise, Year)%>%
+  filter(Year >= 2005)
+
+##rename the columns
+names(China) <- c("Shanghai", "Hainan", "Year")
+
+## melt the tibble object to a tall structure for plotting purpose
+Chinaa <- melt(China, id.vars = "Year")
+
+## plot the data
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="blue",pch=15,size=5)+ggtitle("Enterprise Difference between Shanghai and Hainan, 2005-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
+
+```{r visualation 2, warning=FALSE,message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+## import the csv file as tibble object
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+
+##only interested in the output data in certain provinces after year 2000
+China <- ecData %>%
+  select(Beijing_Output, InnerMongolia_Output, Tibet_Output, Year)%>%
+  filter(Year >= 2000)
+
+##rename the columns
+names(China) <- c("Beijing", "Inner Mongolia", "Tibet", "Year")
+
+## melt the tibble object to a tall structure for plotting purpose
+Chinaa <- melt(China, id.vars = "Year")
+
+## plot the data
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_quantile()+ggtitle("Output of Beijing, Inner Mongolia, and Tibet, 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
+
+```{r visualation 3, warning=FALSE,message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+
+## import the csv file as tibble object
+ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
+
+## enterprise data in 1 province after year 1990 and before 2008
+China <- ecData %>%
+  select(Shaanxi_Enterprise, Year)%>%
+  filter(Year >= 1990, Year <=2007)
+
+##rename the columns
+names(China) <- c("Shaanxi", "Year")
+
+## melt the tibble object to a tall structure for plotting purpose
+Chinaa <- melt(China, id.vars = "Year")
+
+## plot the data
+ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_area(color="red", fill="red")+ggtitle("Number of Enterprises in Shaanxi, 1990-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
+```
+
 ##Section 3, Question 1. Producing Output Ratios
 
 ```{r, echo = TRUE, warning=FALSE,message=FALSE}
@@ -317,7 +394,7 @@ library(reshape2)
 ecData <-as_tibble(read.csv("China_EO_49to17.csv"))
 
 
-##only interested in the enterprise data in those direct controlled cities after year 2000
+##only interested in the output data in those direct controlled cities after year 2000
 China <- ecData %>%
   select(Beijing_Output, Shanghai_Output, Tianjin_Output, Guizhou_Output, Yunnan_Output, Gansu_Output, Year)%>%
   filter(Year >= 2000)
