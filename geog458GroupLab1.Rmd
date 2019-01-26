@@ -212,6 +212,47 @@ ggplot(melt_subNational, aes(x = Year, y = value, colour = variable)) + geom_poi
 
 ```
 
+##Section 3, Question 3
+```{r, echo = TRUE}
+econData <- as_tibble(read.csv("China_EO_49to17.csv"))
+
+# Ratio of Output to enterprise for Beijing, Tianjin, Hebei, Shanghai
+# Outputs a data frame that just contains the ratio along with their respective years
+# Also a column containing their city name for ease of plotting
+ratioBeijing <- econData %>%
+  mutate(OutputPerEnterprise = Beijing_Output / Beijing_Enterprise) %>%
+  select(Year,OutputPerEnterprise)
+ratioBeijing$City <- rep("Beijing",nrow(ratioBeijing))
+
+ratioTianjin <- econData %>%
+  mutate(OutputPerEnterprise = Tianjin_Output / Tianjin_Enterprise) %>%
+  select(Year,OutputPerEnterprise)
+ratioTianjin$City <- rep("Tianjin",nrow(ratioTianjin))
+
+ratioHebei <- econData %>%
+  mutate(OutputPerEnterprise = Hebei_Output / Hebei_Enterprise) %>%
+  select(Year,OutputPerEnterprise)
+ratioHebei$City <- rep("Hebei",nrow(ratioHebei))
+
+ratioShanghai <- econData %>%
+  mutate(OutputPerEnterprise = Shanghai_Output / Shanghai_Enterprise) %>%
+  select(Year,OutputPerEnterprise)
+ratioShanghai$City <- rep("Shanghai",nrow(ratioShanghai))
+
+# Combines all the data frames into one for plotting
+ratio <- rbind(ratioBeijing, ratioTianjin, ratioHebei, ratioShanghai) %>%
+  filter(Year >= 2000)
+
+# Plots the data
+ggplot(data=ratio,aes(x=Year,y=OutputPerEnterprise,color=City)) +geom_line() + ylab("Output per # of Enterprises") + ggtitle("Output per Enterprise of Various Chinese Cities") +theme_bw()
+
+```
+We can see a few trends in this plot:
+First, a tight linear growth in which most of the cities are just about equal and the lead spot goes from Shanghai to Hebei around 2005.
+Second, in 2011, there seems to have been an event that triggered a massive spurt in output per number of enterprises, leading to the dominance of Beijing and Tianjin in this plot.
+There is some data missing, for example Hebei from the year 2015 on, where it seemed like it was beginning to start a downward trend.
+
+
 
 ##Section 3, Question 4
 ```{r task3.4}
