@@ -42,6 +42,90 @@ ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point
 
 ```
 
+##Section 2, Question 2. Second Visualization (Jody)
+
+```{r setup, echo=TRUE}
+## looking at enterprises of different cities.
+
+# read the file 
+object1=read.csv("China_EO_49to17.csv", fileEncoding="latin1")
+econData=as_tibble(object1)
+
+# had to recreate the year column
+desc <- arrange(econData, desc(Year))
+
+# added to the table
+Year=seq(from=1949, to=2017)
+econData$Year=Year
+
+# grabbed a few cities and its enterprise filters between 2000 to 2017
+DataCity <- econData %>%
+  select(Anhui_Enterprise, Hebei_Enterprise, Xinjiang_Enterprise, Year)%>%
+  filter(Year >= 2000)
+
+meltDataCity <- melt(DataCity, id.vars = "Year")
+
+ggplot(meltDataCity, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+
+##Section 3, Question 1. Producing Output Ratios
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+
+# comparing Guangdong and Liaoning's enterprise
+GuangdongLiaoning<- econData %>%
+  select(Guangdong_Enterprise, Liaoning_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(GuangdongLiaoning) <- c("Guangdong", "Liaoning", "Year")
+add_column(GuangdongLiaoning, Output_Ratio = 0)
+print(mutate(GuangdongLiaoning, Output_Ratio = Guangdong/Liaoning))
+
+meltGuangdongLiaoning <- melt(GuangdongLiaoning, id.vars = "Year")
+
+ggplot(meltGuangdongLiaoning, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+#Guangdong vs. Liaoning 
+We can see that Guangdong was able to stable themselves in the earlies 2010 wheres compared to Liaoning they have dropped.
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+
+# comparing Jilin and Anhui's enterprise
+JilinAnhui<- econData %>%
+  select(Jilin_Enterprise, Anhui_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(JilinAnhui) <- c("Jilin", "Anhui", "Year")
+add_column(JilinAnhui, Output_Ratio = 0)
+print(mutate(JilinAnhui, Output_Ratio = Jilin/Anhui))
+
+meltJilinAnhui <- melt(JilinAnhui, id.vars = "Year")
+
+ggplot(meltJilinAnhui, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+#Jilin vs. Anhui 
+We can see that Anhui has grown increasingly high and Jilin has a much less smaller slope.
+
+```{r, echo = TRUE, warning=FALSE,message=FALSE}
+
+# comparing Fujian and Guizhou's enterprise
+FujianGuizhou<- econData %>%
+  select(Fujian_Enterprise, Guizhou_Enterprise, Year)%>%
+  filter(Year >= 2000)
+names(FujianGuizhou) <- c("Fujian", "Guizhou", "Year")
+add_column(FujianGuizhou, Output_Ratio = 0)
+print(mutate(FujianGuizhou, Output_Ratio = Fujian/Guizhou))
+
+meltFujianGuizhou <- melt(FujianGuizhou, id.vars = "Year")
+
+ggplot(meltFujianGuizhou, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3), se = FALSE)
+
+```
+#Fujian vs. Guizhou 
+We can see that Fujian has a larger growth compared to Guizhou and we can say that maybe sometime in the future they would at one point have the same value.
+
+
 ##Section 3, question 2
 ```{r, echo=TRUE, fig.width=14,fig.height=7}
 
