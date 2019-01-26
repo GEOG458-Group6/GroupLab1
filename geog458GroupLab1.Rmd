@@ -79,7 +79,7 @@ ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point
 
 ##Section 2, Question 2. Second Visualization (Jody)
 
-```{r setup, echo=TRUE}
+```{r set, echo=TRUE}
 ## looking at enterprises of different cities.
 
 # read the file 
@@ -106,7 +106,7 @@ ggplot(meltDataCity, aes(x = Year, y = value, colour = variable)) + geom_point()
 
 ##Section 2, Question 2 (3rd-5th visualations, Doyle)
 
-```{r visualation 1, warning=FALSE,message=FALSE}
+```{r visualation 0.1, warning=FALSE,message=FALSE}
 library(plyr)
 library(dplyr)
 library(tidyverse)
@@ -131,7 +131,7 @@ Chinaa <- melt(China, id.vars = "Year")
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="blue",pch=15,size=5)+ggtitle("Enterprise Difference between Shanghai and Hainan, 2005-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
 
-```{r visualation 2, warning=FALSE,message=FALSE}
+```{r visualation 0.2, warning=FALSE,message=FALSE}
 library(plyr)
 library(dplyr)
 library(tidyverse)
@@ -156,7 +156,7 @@ Chinaa <- melt(China, id.vars = "Year")
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_quantile()+ggtitle("Output of Beijing, Inner Mongolia, and Tibet, 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
 
-```{r visualation 3, warning=FALSE,message=FALSE}
+```{r visualation 0.3, warning=FALSE,message=FALSE}
 library(plyr)
 library(dplyr)
 library(tidyverse)
@@ -438,4 +438,7 @@ ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="purple
 ```
 ##Explanation of the plot
 On the other hand, the number of enterprises have little gap between the provinces (regardless of their wealth gap), excluding Shanghai. The small differences between these provinces may have to do with the number of state-owned enterprises (a legal entity that takes in commerical activity on behalf of the government), which could mean that they are not as affected by the wealth of the surrounding provinces in terms of location. Shanghai may be an exception here because it is much wealthier, thus could attract more enterprises to the area. However, this is simply a guess as other variables, such as population, can affect the number of enterprises. 
+
+
+
 
