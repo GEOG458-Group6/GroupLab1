@@ -229,24 +229,28 @@ for (i in 1:5) {
   }
 }
 # calculate output difference between National Bureau of Statistics of China and All China Center Data. If the number is positive (bar above x axis on the graph), that means that, for the same year, China NBS data is higher than the data collected by All China Center
+#next step, print four graphs of differences of the four municipalities
 
 pB <-ggplot(munip, aes(Year, Beijing))  
 pB +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Beijing),colour = "darkred")+
   labs(title = "Statistics Difference of Beijing Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+#Beijing Stat Diff
 
 pT <-ggplot(munip, aes(Year, Tianjin))
 pT +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Tianjin),colour = "darkblue")+
   labs(title = "Statistics Difference of Tianjin Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+#Tianjin Stat Diff
 
 pC <-ggplot(munip, aes(Year, Chongqing))
 pC +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Chongqing),colour = "grey60")+
   labs(title = "Statistics Difference of Chongqing Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+#Chongqing Stat Diff
 
 pS <-ggplot(munip, aes(Year, Shanghai))
 pT +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Shanghai),colour = "lightsalmon4")+
   labs(title = "Statistics Difference of Shanghai Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+#Shanghai Stat Diff
 
-#print four graphs of differences of the four municipalities
 ```
 
 ##Section 3, Question 5
