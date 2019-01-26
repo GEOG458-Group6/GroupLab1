@@ -13,6 +13,41 @@ China's economic growth has always been questioned by others because from a thir
 
 In [China's Economic Data: An Accurate Refelction, or Just Smoke and Mirrors](https://www.stlouisfed.org/publications/regional-economist/second-quarter-2017/chinas-economic-data-an-accurate-reflection-or-just-smoke-and-mirrors ), they have a few suggestions to help collect *better* GPD.  They have three mothods that we can consder; energy consumption, indexed GDP proxies, and luminosity.  Because China does consume a lot of energy, changes in this particular area could help collect data.  We can think of it as China consumes energy to make products which can be recording as production.  A second method, indexed GDP proxies.  Indexing will measure from quarter-to-quarter but with consistency it can show quarterly growth to yearly growth.  The last method is luminsoity and that means to use satellite data that will measure the intensity of man-made night lights.  This method is can avoid falsification and misreporting because this method would be able to track consumption of all goods that requires light.  
 
+
+
+##Section 2, Question 1
+```{r task2.1,echo=TRUE, warning=FALSE,message=FALSE}
+library(plyr)
+library(dplyr)
+library(tidyverse)
+library(ggplot2)
+library(reshape2)
+object1 = read.csv("China_EO_49to17.csv" ,fileEncoding="latin1")
+object2 = as.tibble(object1)
+datC=object2
+datC$Year=seq(from=1949, to=2017)
+datC=datC[order(datC$Year),]
+# substitute years to numerical data
+datC
+outp = cbind(datC[,1],datC[,grep("Output", names(datC))])
+enterp = cbind(datC[,1],datC[,grep("Enterprise", names(datC))])
+enterp
+outp_P = nrow(outp)-1
+colnames(outp) <- strsplit((colnames(outp)),"_Output")
+outp
+colnames(enterp) <- strsplit((colnames(enterp)),"_Output")
+enterp
+outp_4<- outp %>%
+  select(Beijing,Tianjin,Chongqing,Shanghai, Year)
+##rename the columns
+names(outp_4) <- c("Beijing", "Tianjin", "Chongqing", "Shanghai", "Year")
+## melt the tibble object to a tall structure for plotting purpose
+meltout4 <- melt(outp_4, id.vars = "Year")
+##plot. Different cities will have different color; applying smoothed linear regression lines with 95% confidence area
+bb <- ggplot(meltout4, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3)) + labs(title = "Output of 4 Municipalities", x = "Year",y = "Output")
+bb
+```
+
 ##Section 2, Question 2. One of the five visualizations
 
 ```{r setup, echo=TRUE, warning=FALSE,message=FALSE, fig.width=12,fig.height=6}
@@ -175,6 +210,43 @@ ggplot(melt_subNational, aes(x = Year, y = value, colour = variable)) + geom_poi
 
 
 
+```
+
+
+##Section 3, Question 4
+```{r task3.4}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+object3 = read.csv("Municip_output.csv",stringsAsFactors = FALSE)
+municp = as.tibble(object3)
+munip <- municp
+allc_muni <- outp[50:69,]
+allc_muni <- allc_muni[,c(1:3, 23, 10) ]
+for (i in 1:5) {
+  if(i >1){
+    munip[,i]<- (municp[,i] - allc_muni[,i])
+  }
+}
+# calculate output difference between National Bureau of Statistics of China and All China Center Data. If the number is positive (bar above x axis on the graph), that means that, for the same year, China NBS data is higher than the data collected by All China Center
+
+pB <-ggplot(munip, aes(Year, Beijing))  
+pB +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Beijing),colour = "darkred")+
+  labs(title = "Statistics Difference of Beijing Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+
+pT <-ggplot(munip, aes(Year, Tianjin))
+pT +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Tianjin),colour = "darkblue")+
+  labs(title = "Statistics Difference of Tianjin Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+
+pC <-ggplot(munip, aes(Year, Chongqing))
+pC +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Chongqing),colour = "grey60")+
+  labs(title = "Statistics Difference of Chongqing Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+
+pS <-ggplot(munip, aes(Year, Shanghai))
+pT +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Shanghai),colour = "lightsalmon4")+
+  labs(title = "Statistics Difference of Shanghai Output",substitute("National Bureau of Statistics of China - ALl China Center Data"), x = "Year",y = "Output (Thousand Million CNY)")
+
+#print four graphs of differences of the four municipalities
 ```
 
 ##Section 3, Question 5
