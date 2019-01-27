@@ -32,19 +32,19 @@ enterp = cbind(datC[,1],datC[,grep("Enterprise", names(datC))])
 outp_P = nrow(outp)-1
 colnames(outp) <- strsplit((colnames(outp)),"_Output")
 colnames(enterp) <- strsplit((colnames(enterp)),"_Enterprise")
-outp_4 <- outp %>%
-  select(Beijing,Tianjin,Chongqing,Shanghai, Year)
+outp_4 <- outp %>% select(Beijing,Tianjin,Chongqing,Shanghai, Year)
 names(outp_4) <- c("Year","Beijing", "Tianjin", "Chongqing", "Shanghai")
 meltout4 <- melt(outp_4, id.vars = "Year") 
 bb <- ggplot(meltout4, aes(x = Year, y = value, colour = variable)) + geom_point() + geom_smooth(method="auto", se=TRUE, fullrange=FALSE, level=0.95) + labs(title = "Fig. 1 Output of 4 Municipalities", x = "Year",y = "Output") #add regression lines and labels to a scatter plot
 bb
-
+#bb > the output graph
 
 enterp4 <- enterp %>% select(Year,Beijing,Tianjin,Chongqing,Shanghai)
 names(enterp4) <- c("Year","Beijing", "Tianjin", "Chongqing", "Shanghai")
 meltenterp_4 <- melt(enterp4, id.vars = "Year") 
 bb1 <- ggplot(meltenterp_4, aes(x = Year, y = value, colour = variable)) + geom_point() + geom_smooth(method="auto", se=TRUE, fullrange=FALSE, level=0.95) + labs(title = "Fig. 2 Enterprise Data of 4 Municipalities", x = "Year",y = "Enterprise") #add regression lines and labels to a scatter plot
 bb1
+#bb > the enterprise graph
 ```
 
 ###Output Data Narration
