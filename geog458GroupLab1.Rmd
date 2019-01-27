@@ -13,9 +13,14 @@ China's economic growth has always been questioned by others because from a thir
 
 In [China's Economic Data: An Accurate Refelction, or Just Smoke and Mirrors](https://www.stlouisfed.org/publications/regional-economist/second-quarter-2017/chinas-economic-data-an-accurate-reflection-or-just-smoke-and-mirrors ), they have a few suggestions to help collect *better* GPD.  They have three mothods that we can consder; energy consumption, indexed GDP proxies, and luminosity.  Because China does consume a lot of energy, changes in this particular area could help collect data.  We can think of it as China consumes energy to make products which can be recording as production.  A second method, indexed GDP proxies.  Indexing will measure from quarter-to-quarter but with consistency it can show quarterly growth to yearly growth.  The last method is luminsoity and that means to use satellite data that will measure the intensity of man-made night lights.  This method is can avoid falsification and misreporting because this method would be able to track consumption of all goods that requires light.  
 
-
-
+##Section 2
 ##Section 2, Question 1
+After the Chinese Revolution of 1949, China’s enterprise ownership was transformed into the public-owned collective economy. The Chinese government formed “Collective farm” and the “People’s commune” in rural areas. The People’s Commune was a collective owned economic organization representing the grass-roots organ of state power in rural areas that involved in agricultural, industrial and commercial activities[^1]. Thus, those pre-existing cooperatives, especially in cities, were merged into the people’s communes[^2] in the countryside, causing the number of enterprises dropped in Mao's era(1949-1976). Chongqing might instead have more enterprise, People's Commune in its case, having a more collective form of the economy during the Mao's era, since Chongqing was recreated as a municipality in 1997.
+        China experienced Chinese Economic Reform two years after Mao's death. Private sector economy was largely encouraged. Some townships are sold to individuals and more new cooperates are established, correspondly showing a increse on the graph of Enterprise Data of 4 Municipalities.
+  
+[^1]: Shuang, S. (2010, December). People's Communes. Retrieved from http://www.chinatoday.com.cn/ctenglish/se/txt/2009-03/11/content_184433.htm
+[^2]: Great Leap Forward (1958-1961). (n.d.). Retrieved from https://chineseposters.net/themes/great-leap-forward.php
+
 ```{r task2.1,echo=TRUE, warning=FALSE,message=FALSE}
 library(plyr)
 library(dplyr)
@@ -27,8 +32,6 @@ object2 = as.tibble(object1)
 datC=object2
 datC$Year=seq(from=1949, to=2017)
 datC=datC[order(datC$Year),]
-# substitute years to numerical data
-datC
 outp = cbind(datC[,1],datC[,grep("Output", names(datC))])
 enterp = cbind(datC[,1],datC[,grep("Enterprise", names(datC))])
 outp_P = nrow(outp)-1
@@ -36,16 +39,13 @@ colnames(outp) <- strsplit((colnames(outp)),"_Output")
 colnames(enterp) <- strsplit((colnames(enterp)),"_Output")
 outp_4<- outp %>%
   select(Beijing,Tianjin,Chongqing,Shanghai, Year)
-##rename the columns
 names(outp_4) <- c("Beijing", "Tianjin", "Chongqing", "Shanghai", "Year")
-## melt the tibble object to a tall structure for plotting purpose
 meltout4 <- melt(outp_4, id.vars = "Year")
-##plot. Different cities will have different color; applying smoothed linear regression lines with 95% confidence area
 bb <- ggplot(meltout4, aes(x = Year, y = value, colour = variable)) + geom_point() + scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 3)) + labs(title = "Output of 4 Municipalities", x = "Year",y = "Output")
 bb
 ```
 
-##Section 2
+
 #Question 2. One of the five visualizations
 
 ```{r setup, echo=TRUE, warning=FALSE,message=FALSE, fig.width=12,fig.height=6}
@@ -333,7 +333,7 @@ Second, in 2011, there seems to have been an event that triggered a massive spur
 There is some data missing, for example Hebei from the year 2015 on, where it seemed like it was beginning to start a downward trend.
 
 ##Section 3, Question 4
-```{r task3.4}
+```{r task3.4,echo=TRUE, warning=FALSE,message=FALSE}
 library(tidyverse)
 library(dplyr)
 library(ggplot2)
