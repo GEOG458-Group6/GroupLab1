@@ -15,11 +15,6 @@ In [China's Economic Data: An Accurate Refelction, or Just Smoke and Mirrors](ht
 
 ##Section 2
 ##Section 2, Question 1
-After the Chinese Revolution of 1949, China’s enterprise ownership was transformed into the public-owned collective economy. The Chinese government formed “Collective farm” and the “People’s commune” in rural areas. The People’s Commune was a collective owned economic organization representing the grass-roots organ of state power in rural areas that involved in agricultural, industrial and commercial activities[^1]. Thus, those pre-existing cooperatives, especially in cities, were merged into the people’s communes[^2] in the countryside, causing the number of enterprises dropped in Mao's era(1949-1976). Chongqing might instead have more enterprise, People's Commune in its case, having a more collective form of the economy during the Mao's era, since Chongqing was recreated as a municipality in 1997.
-        China experienced Chinese Economic Reform two years after Mao's death. Private sector economy was largely encouraged. Some townships are sold to individuals and more new cooperates are established, correspondly showing a increse on the graph of Enterprise Data of 4 Municipalities.
-  
-[^1]: Shuang, S. (2010, December). People's Communes. Retrieved from http://www.chinatoday.com.cn/ctenglish/se/txt/2009-03/11/content_184433.htm
-[^2]: Great Leap Forward (1958-1961). (n.d.). Retrieved from https://chineseposters.net/themes/great-leap-forward.php
 
 ```{r task2.1,echo=TRUE, warning=FALSE,message=FALSE}
 library(plyr)
@@ -45,6 +40,17 @@ bb <- ggplot(meltout4, aes(x = Year, y = value, colour = variable)) + geom_point
 bb
 ```
 
+###Output Data Narration
+        The Great Leap Forward movement caused the collective economy mainly focused on steel production and encouraged the people to use backyard furnaces so that Chinese steel production can surpass UK in 15 years. The movement did not end with large steel production.
+        Since people were gathered to the People's Commune and Collective Farms, there were lack of working incentives and causing a reduction in crop harvest as well as other yields.
+        These two reasons are represented on the graph of *Output of 4 Municipalities* by a minimal-fluctuate line.
+
+###Enterprise Data Narration
+        After the Chinese Revolution of 1949, China’s enterprise ownership was transformed into the public-owned collective economy. The Chinese government formed “Collective farm” and the “People’s commune” in rural areas. The People’s Commune was a collective owned economic organization representing the grass-roots organ of state power in rural areas that involved in agricultural, industrial and commercial activities[^1]. Thus, those pre-existing cooperatives, especially in cities, were merged into the people’s communes[^2] in the countryside, causing the number of enterprises dropped in Mao's era(1949-1976). Chongqing might instead have more enterprise, People's Commune in its case, having a more collective form of the economy during the Mao's era, since Chongqing was recreated as a municipality in 1997.
+        China experienced Chinese Economic Reform two years after Mao's death. Private sector economy was largely encouraged. Some townships are sold to individuals and more new cooperates are established, correspondly showing a increse on the graph of *Enterprise Data of 4 Municipalities*.
+  
+[^1]: Shuang, S. (2010, December). People's Communes. Retrieved from http://www.chinatoday.com.cn/ctenglish/se/txt/2009-03/11/content_184433.htm
+[^2]: Great Leap Forward (1958-1961). (n.d.). Retrieved from https://chineseposters.net/themes/great-leap-forward.php
 
 #Question 2. One of the five visualizations
 
