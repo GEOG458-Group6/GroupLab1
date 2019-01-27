@@ -48,7 +48,8 @@ bb <- ggplot(meltout4, aes(x = Year, y = value, colour = variable)) + geom_point
 bb
 ```
 
-##Section 2, Question 2. One of the five visualizations
+##Section 2
+#Question 2. One of the five visualizations
 
 ```{r setup, echo=TRUE, warning=FALSE,message=FALSE, fig.width=12,fig.height=6}
 library(plyr)
@@ -77,7 +78,7 @@ ggplot(meltDirectCity, aes(x = Year, y = value, colour = variable)) + geom_point
 
 ```
 
-##Section 2, Question 2. Second Visualization (Jody)
+##Second Visualization (Jody)
 
 ```{r set, echo=TRUE}
 ## looking at enterprises of different cities.
@@ -104,9 +105,9 @@ ggplot(meltDataCity, aes(x = Year, y = value, colour = variable)) + geom_point()
 
 ```
 
-##Section 2, Question 2 (3rd-5th visualizations, Doyle)
+##Third Visualization
 
-```{r visualation 0.1, warning=FALSE,message=FALSE}
+```{r, warning=FALSE,message=FALSE, echo = TRUE}
 library(plyr)
 library(dplyr)
 library(tidyverse)
@@ -130,8 +131,8 @@ Chinaa <- melt(China, id.vars = "Year")
 ## plot the data
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="blue",pch=15,size=5)+ggtitle("Enterprise Difference between Shanghai and Hainan, 2005-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
-
-```{r visualation 0.2, warning=FALSE,message=FALSE}
+## Fourth Visualization 
+```{r, warning=FALSE,message=FALSE, echo=TRUE}
 library(plyr)
 library(dplyr)
 library(tidyverse)
@@ -156,7 +157,8 @@ Chinaa <- melt(China, id.vars = "Year")
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_quantile()+ggtitle("Output of Beijing, Inner Mongolia, and Tibet, 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
 
-```{r visualation 0.3, warning=FALSE,message=FALSE}
+## Fifth Visualization
+```{r, warning=FALSE, message=FALSE, echo = TRUE}
 library(plyr)
 library(dplyr)
 library(tidyverse)
@@ -200,7 +202,7 @@ ggplot(meltGuangdongLiaoning, aes(x = Year, y = value, colour = variable)) + geo
 ```
 
 
-#Guangdong vs. Liaoning 
+###Guangdong vs. Liaoning 
 We can see that Guangdong was able to stable themselves in the earlies 2010 wheres compared to Liaoning they have dropped.
 
 ```{r, echo = TRUE, warning=FALSE,message=FALSE}
@@ -220,7 +222,7 @@ ggplot(meltJilinAnhui, aes(x = Year, y = value, colour = variable)) + geom_point
 ```
 
 
-#Jilin vs. Anhui 
+###Jilin vs. Anhui 
 We can see that Anhui has grown increasingly high and Jilin has a much less smaller slope.
 
 ```{r, echo = TRUE, warning=FALSE,message=FALSE}
@@ -240,28 +242,18 @@ ggplot(meltFujianGuizhou, aes(x = Year, y = value, colour = variable)) + geom_po
 ```
 
 
-#Fujian vs. Guizhou 
+###Fujian vs. Guizhou 
 We can see that Fujian has a larger growth compared to Guizhou and we can say that maybe sometime in the future they would at one point have the same value.
 
 
 ##Section 3, question 2
+Based on the plot below, provinces such as Xinjiang, Ningxia, Qinghai, Shaanxi, Tibet, Yunnan, and Guizhou have the lowest nation/province output ratio. Such provinces usually have low GDP as well, because of their weaknesses among areas like natural resources, manufacturing, and tertiary industry. Cities such as Beijing, Shanghai and Tianjing, and provinces such as Hubei, Guangdong, and Jiangsu, usually have high ratio, because of their geographical location (near ocean or river, and has plenty natural resources), and advantages in all three kinds of industries. 
 ```{r, echo=TRUE, fig.width=14,fig.height=7}
 
 ##Sum national total 
 NationalOutput <- econData %>%
   select(matches("output"), Year) %>%
   mutate(sumVar=rowSums(.[1:19], na.rm = TRUE))
-
-##Inner join national total with the csv file
-# 
-# df_with_Total<- left_join(econData, NationalOutput, by = "Year")
-# df_with_Total<- df_with_Total %>%
-#   select(-matches(".y"))
-
-##trying to building a new data frame to store the percentage
-
-
-##the actual loop. 
 
 ## convert to tibble object
 NationalOutput <- as_tibble(NationalOutput)
@@ -272,7 +264,6 @@ for(col in names(NationalOutput)) {
 }
 
 ## subset the previous dataset for plotting purposes. 
-
 ## only selecting the ratio columns which has the _share pattern
 subset_NationalOutput <- select(NationalOutput, matches("share"))
 
@@ -290,8 +281,6 @@ melt_subNational <- melt(subset_NationalOutput, id.vars = "Year")
 
 ##plot 
 ggplot(melt_subNational, aes(x = Year, y = value, colour = variable)) + geom_point()
-
-
 
 ```
 
@@ -340,7 +329,6 @@ ratio <- rbind(ratioBeijing, ratioTianjin, ratioHebei, ratioShanghai, ratioGuang
 ggplot(data=ratio,aes(x=Year,y=OutputPerEnterprise,color=Province)) +geom_line() + ylab("Output per # of Enterprises") + ggtitle("Output per Number of Enterprises of Various Chinese Provinces") +theme_bw()
 
 ```
-
 
 We can see a few trends in this plot:
 First, a tight linear growth in which most of the provinces are just about equal and the lead spot goes from Shanghai to Hebei around 2005.
@@ -416,10 +404,9 @@ Chinaa <- melt(China, id.vars = "Year")
 ##ploting the values
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="black",pch=20,size=4)+ggtitle("Outputs of 3 of the Richest and Poorest China Provinces (in GDP per capita for 2017) from 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
-
-
-##Explanation of the plot
+###Explanation of the plot
 This plot shows that while the richest and poorest provinces outputs (based on 2017 data for GDP per capita) in China have been increased over the years, the outputs between provinces has widen considerably. Thus the data suggests that there is a widening gap in wealth between richest and poorest provinces. However, this assertion should be taken with a grain of salt (in consideration of how wide the gap is) as China provinces have been historically inflating their reported figures over the years. Still, there seems to be a trend that China has growing gap in outputs between different provinces, thus suggesting a correlation with the wealth gap as well (which is one of key issues in China).
+
 
 ```{r visualation 2}
 library(plyr)
@@ -446,11 +433,93 @@ Chinaa <- melt(China, id.vars = "Year")
 ##ploting the values
 ggplot(data=Chinaa,aes(x=Year,y=value,colour=variable))+geom_point(color="purple",pch=19,size=3)+ggtitle("Enterprises of 3 of the Richest and Poorest China Provinces (in GDP per capita for 2017) from 2000-2017")+theme_bw()+ scale_size_area()+ stat_smooth(method = lm, formula = y ~ splines::bs(x, 5), se = FALSE)
 ```
-
-
-##Explanation of the plot
+###Explanation of the plot
 On the other hand, the number of enterprises have little gap between the provinces (regardless of their wealth gap), excluding Shanghai. The small differences between these provinces may have to do with the number of state-owned enterprises (a legal entity that takes in commerical activity on behalf of the government), which could mean that they are not as affected by the wealth of the surrounding provinces in terms of location. Shanghai may be an exception here because it is much wealthier, thus could attract more enterprises to the area. However, this is simply a guess as other variables, such as population, can affect the number of enterprises. 
 
+## Section 3, Question 6
+```{r, echo=TRUE}
+
+##external csv from Nation Bureau of Statistics of China, contains population estimates from 2000 - 2017, for all provinces in mainland China
+data1 <- read.csv("China_EO_49to17.csv")
+data1_output<- select(data1, matches("output"), Year)
+data1_enterprise <-select(data1, matches("enterprise"), Year)
+data2 <- read.csv("AnnualbyProvince.csv")
+
+NE_Output_Sum <- data1_output %>%
+  select("Liaoning_Output", "Jilin_Output", "Heilongjiang_Output", Year) %>%
+  mutate(Northeast_Output =rowSums(.[1:3], na.rm = TRUE))
+
+NE_Enterprise_Sum <- data1_enterprise %>%
+  select("Liaoning_Enterprise", "Jilin_Enterprise", "Heilongjiang_Enterprise", Year) %>%
+  mutate(Northeast_Enterprise =rowSums(.[1:3], na.rm = TRUE))
+
+NC_Output_Sum <- data1_output %>%
+  select("Beijing_Output", "Tianjin_Output", "Hebei_Output", "Shandong_Output", Year) %>%
+  mutate(NorthcCostal_Output =rowSums(.[1:3], na.rm = TRUE))
+
+NC_Enterprise_Sum <- data1_enterprise %>%
+  select("Beijing_Enterprise", "Tianjin_Enterprise", "Hebei_Enterprise", "Shandong_Enterprise", Year) %>%
+  mutate(NorthCoastal_Enterprise =rowSums(.[1:3], na.rm = TRUE))
+
+EC_Output_Sum <- data1_output %>%
+  select("Shanghai_Output", "Jiangsu_Output", "Zhejiang_Output", Year) %>%
+  mutate(EastCostal_Output =rowSums(.[1:3], na.rm = TRUE))
+
+EC_Enterprise_Sum <- data1_enterprise %>%
+  select("Shanghai_Enterprise", "Jiangsu_Enterprise", "Zhejiang_Enterprise", Year) %>%
+  mutate(EastCostal_Enterprise =rowSums(.[1:3], na.rm = TRUE))
+
+SC_Output_Sum <- data1_output %>%
+  select("Fujian_Output", "Guangdong_Output", "Hainan_Output", Year) %>%
+  mutate(SouthCostal_Output =rowSums(.[1:3], na.rm = TRUE))
+
+SC_Enterprise_Sum <- data1_enterprise %>%
+  select("Fujian_Enterprise", "Guangdong_Enterprise", "Hainan_Enterprise", Year) %>%
+  mutate(SouthCostal_Enterprise =rowSums(.[1:3], na.rm = TRUE))
+
+YellowRiver_Output_Sum<-data1_output %>%
+  select("Shanxi_Output", "InnerMongolia_Output", "Henan_Output", "Shaanxi_Output", Year) %>%
+  mutate(YellowRiver_Output =rowSums(.[1:4], na.rm = TRUE))
+
+YellowRiver_Enterprise_Sum <- data1_enterprise %>%
+  select("Shanxi_Enterprise", "InnerMongolia_Enterprise", "Henan_Enterprise", "Shaanxi_Enterprise", Year) %>%
+  mutate(YellowRiver_Enterprise =rowSums(.[1:3], na.rm = TRUE))
+
+Yangtz_Output_Sum <- data1_output %>%
+  select("Anhui_Output", "Jiangxi_Output", "Hubei_Output", "Hunan_Output",Year) %>%
+  mutate(Yangtz_Output =rowSums(.[1:4], na.rm = TRUE))
+
+Yangtz_Enterprise_Sum <-  data1_enterprise %>%
+  select("Anhui_Enterprise", "Jiangxi_Enterprise", "Hubei_Enterprise", "Hunan_Enterprises", Year) %>%
+  mutate(Yangtz_Enterprise =rowSums(.[1:4], na.rm = TRUE))
+
+SW_Output_Sum <- data1_output %>%
+  select("Guangxi_Output", "Chongqing_Output", "Sichuan_Output", "Guizhou_Output", "Yunnan_Output", Year) %>%
+  mutate(Southwest_Output =rowSums(.[1:5], na.rm = TRUE))
+
+SW_Enterprise_Sum <- data1_enterprise %>%
+  select("Guangxi_Enterprise", "Chongqing_Enterprise", "Sichuan_Enterprise", "Guizhou_Enterprise", "Yunnan_Enterprise", Year) %>% 
+  mutate(Southwest_Enterprise =rowSums(.[1:5], na.rm = TRUE))
+
+NW_Output_Sum <- data1_output %>%
+  select("Tibet_Output", "Gansu_Output", "Qinghai_Output", "Ningxia_Output", "Xinjiang_Output", Year) %>%
+  mutate(Northwest_Output =rowSums(.[1:5], na.rm = TRUE))
+
+NW_Enterprise_Sum <- data1_enterprise %>%
+  select("Tibet_Enterprise", "Gansu_Enterprise", "Qinghai_Enterprise", "Ningxia_Enterprise", "Xinjiang_Enterprise", Year) %>%
+  mutate(Northwest_Enterprise =rowSums(.[1:5], na.rm = TRUE))
+
+Output_Region <- data.frame(EC_Output_Sum, NC_Output_Sum, NE_Output_Sum, NW_Output_Sum, SC_Output_Sum, SW_Output_Sum, Yangtz_Output_Sum, YellowRiver_Output_Sum)
+
+Output_Region <- Output_Region %>%
+  select(-matches("Year."))
+
+Enterprise_Region <- data.frame(EC_Enterprise_Sum, NC_Enterprise_Sum, NE_Enterprise_Sum, NW_Enterprise_Sum, SC_Enterprise_Sum, SW_Enterprise_Sum, Yangtz_Enterprise_Sum, YellowRiver_Enterprise_Sum)
+
+Enterprise_Region <- Enterprise_Region %>%
+  select(-matches("Year."))
 
 
+
+```
 
