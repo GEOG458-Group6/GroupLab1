@@ -362,15 +362,14 @@ object3 = read.csv("Municip_output.csv",stringsAsFactors = FALSE)
 municp = as.tibble(object3)
 munip <- municp
 allc_muni <- outp[50:69,]
-allc_muni <- allc_muni[,c(1:3, 23, 10) ]
+allc_muni <- allc_muni[,c(1:3, 23, 10) ] #extract wanted data
 for (i in 1:5) {
   if(i >1){
-    munip[,i]<- (municp[,i] - allc_muni[,i])
+    munip[,i]<- (municp[,i] - allc_muni[,i]) # calculate the difference
   }
 }
-# calculate output difference between National Bureau of Statistics of China and All China Center Data. If the number is positive (bar above x axis on the graph), that means that, for the same year, China NBS data is higher than the data collected by All China Center
-#next step, print four graphs of differences of the four municipalities
 
+#print four graphs of differences of the four municipalities
 pB <-ggplot(munip, aes(Year, Beijing))  
 pB +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Beijing),colour = "darkred")+
   labs(title = "Statistics Difference of Beijing Output", x = "Year",y = "Output (Thousand Million CNY)")
@@ -394,7 +393,11 @@ pT +geom_bar(stat = "identity")+geom_line(aes(x = munip$Year, y = Shanghai),colo
 ```
 ###3.4 Graph Explanation
 
-        These four graphs show the difference between the National Bureau of Statistics(NBS) of China and the All China Center Data(CDC) from 1998 to 2016. The bars' heights represent how significant the differences are. If the bar is above the x-axis, that means, for that specific year, the NBS data is higher than the CDC data. If the bar is below the x-axis, the NBS data is lower than the CDC data in that specific year. CDC dataset has few data missing in 2017, and these are not showing on the graph because the difference can't be estimated.
+        These four graphs show the difference between the National Bureau of Statistics(NBS) of China and the All China Center Data(CDC) from 1998 to 2016. The China NBS data is gathered from NBS website [^4]in the *Regional* section, *Annual by Province* option in the csv file called "Municip_output.csv".
+        
+        The bars' heights represent how significant the differences are. If the bar is above the x-axis, that means, for that specific year, the NBS data is higher than the CDC data. If the bar is below the x-axis, the NBS data is lower than the CDC data in that specific year. CDC dataset has few data missing in 2017, and these are not showing on the graph because the difference can't be estimated. 
+
+[^4] http://data.stats.gov.cn/english/easyquery.htm?cn=E0103
 
 ##Section 3, Question 5
 
